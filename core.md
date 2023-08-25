@@ -1,13 +1,16 @@
-<!--
----
+## <!--
+
 linkTitle: "Core Events"
 weight: 30
 hide_summary: true
 icon: "fa-solid fa-bars-staggered"
 description: >
-   Continuous Delivery Core Events
+Continuous Delivery Core Events
+
 ---
+
 -->
+
 # Continuous Delivery Core Events
 
 Continuous Delivery Core Events include the subjects and predicates related to orchestration of execution required to deterministically and continuously delivery software to users.
@@ -15,13 +18,13 @@ Core events are at the lower level of abstraction in the dictionary: they descri
 
 ## Subjects
 
-In the context of Continuous Delivery, a *pipeline* is the definition of a set of *tasks* that needs to be performed to build, test, package, release and deploy software artifacts.
-The definition of *pipelines* and *tasks* is an authoring process, and has no event associated to it. CDEvents identifies two [*subjects*](./spec/README.md), [`pipelineRun`](#pipelinerun) and [`taskRun`](#taskrun), which are the runtime counterparts of *pipelines* and *tasks*.
+In the context of Continuous Delivery, a _pipeline_ is the definition of a set of _tasks_ that needs to be performed to build, test, package, release and deploy software artifacts.
+The definition of _pipelines_ and _tasks_ is an authoring process, and has no event associated to it. CDEvents identifies two [_subjects_](./spec/README.md), [`pipelineRun`](#pipelinerun) and [`taskRun`](#taskrun), which are the runtime counterparts of _pipelines_ and _tasks_.
 
-| Subject | Description | Predicates |
-|---------|-------------|------------|
-| [`pipelineRun`](#pipelinerun) | An instance of a *pipeline* | [`queued`](#pipelinerun-queued), [`started`](#pipelinerun-started), [`finished`](#pipelinerun-finished)|
-| [`taskRun`](#taskrun) | An instance of a *task* | [`started`](#taskrun-started), [`finished`](#taskrun-finished)|
+| Subject                       | Description                 | Predicates                                                                                              |
+| ----------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`pipelineRun`](#pipelinerun) | An instance of a _pipeline_ | [`queued`](#pipelinerun-queued), [`started`](#pipelinerun-started), [`finished`](#pipelinerun-finished) |
+| [`taskRun`](#taskrun)         | An instance of a _task_     | [`started`](#taskrun-started), [`finished`](#taskrun-finished)                                          |
 
 ### `pipelineRun`
 
@@ -30,15 +33,15 @@ versions of the same artifact. We are referring to this instance as
 [`pipelineRun`](#pipelinerun). It will have a unique id and it will help us to
 track the build and release progress on a particular software artifact.
 
-| Field | Type | Description | Examples |
-|-------|------|-------------|----------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/pipelinerun-1234` |
-| source | `URI-Reference` | See [source](spec.md#source-subject) | |
-| type | `String` | See [type](spec.md#type-subject) | `pipelineRun` |
-| pipelineName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` |
-| outcome | `Enum` | outcome of a finished `pipelineRun` | `success`, `error` or `failure`|
-| url | `URI` | url to the `pipelineRun` | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` |
-| errors | `String` | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `pipelineRun cancelled by user`, `Unit tests failed`|
+| Field        | Type            | Description                                                             | Examples                                                                                                    |
+| ------------ | --------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| id           | `String`        | See [id](spec.md#id-subject)                                            | `tenant1/12345-abcde`, `namespace/pipelinerun-1234`                                                         |
+| source       | `URI-Reference` | See [source](spec.md#source-subject)                                    |                                                                                                             |
+| type         | `String`        | See [type](spec.md#type-subject)                                        | `pipelineRun`                                                                                               |
+| pipelineName | `String`        | The name of the pipeline                                                | `MyPipeline`, `Unit tests for my repo`                                                                      |
+| outcome      | `String (enum)` | outcome of a finished `pipelineRun`                                     | `success`, `error` or `failure`                                                                             |
+| url          | `URI`           | url to the `pipelineRun`                                                | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234`   |
+| errors       | `String`        | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `pipelineRun cancelled by user`, `Unit tests failed` |
 
 ### `taskRun`
 
@@ -49,16 +52,16 @@ Task, the execution of pipelineRun MUST generate both the pipelineRun and
 taskRun events. Some systems may support execution of Tasks without a Pipeline
 associated, in which case it is acceptable to generate only taskRun events.
 
-| Field | Type | Description | Examples |
-|-------|------|-------------|----------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/taskrun-1234` |
-| source | `URI-Reference` | See [source](spec.md#source-subject) | |
-| type | `String` | See [type](spec.md#type-subject) | `taskRun` |
-| taskName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` |
-| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to. | `{"id": "namespace/pipelinerun-1234"}`|
-| outcome | `Enum` | outcome of a finished `taskRun` | `success`, `error` or `failure`|
-| url | `URI` | url to the `taskRun` | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234` |
-| errors | `String` | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `taskRun cancelled by user`, `Unit tests failed`|
+| Field       | Type                                     | Description                                                             | Examples                                                                                                |
+| ----------- | ---------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| id          | `String`                                 | See [id](spec.md#id-subject)                                            | `tenant1/12345-abcde`, `namespace/taskrun-1234`                                                         |
+| source      | `URI-Reference`                          | See [source](spec.md#source-subject)                                    |                                                                                                         |
+| type        | `String`                                 | See [type](spec.md#type-subject)                                        | `taskRun`                                                                                               |
+| taskName    | `String`                                 | The name of the pipeline                                                | `MyPipeline`, `Unit tests for my repo`                                                                  |
+| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to.                       | `{"id": "namespace/pipelinerun-1234"}`                                                                  |
+| outcome     | `String (enum)`                          | outcome of a finished `taskRun`                                         | `success`, `error` or `failure`                                                                         |
+| url         | `URI`                                    | url to the `taskRun`                                                    | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234`       |
+| errors      | `String`                                 | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `taskRun cancelled by user`, `Unit tests failed` |
 
 ## Events
 
@@ -68,84 +71,84 @@ Due the dynamic nature of Pipelines, most of actual work needs to be queued to
 happen in a distributed way, hence queued events are added. Adopters can choose
 to ignore these events if they don't apply to their use cases.
 
-- Event Type: __`dev.cdevents.pipelinerun.queued.0.1.1`__
+- Event Type: **`dev.cdevents.pipelinerun.queued.0.1.1`**
 - Predicate: queued
 - Subject: [`pipelineRun`](#pipelinerun)
 
-| Field | Type | Description | Examples | Required |
-|-------|------|-------------|----------|----------------------------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/pipelinerun-1234` | ✅ |
-| source | `URI-Reference` | See [source](spec.md#source-subject) | | |
-| type | `String` | See [type](spec.md#type-subject) | `pipelineRun` | |
-| pipelineName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` | |
-| url | `URI` | url to the `pipelineRun` | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` | |
+| Field        | Type            | Description                          | Examples                                                                                                  | Required |
+| ------------ | --------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- | -------- |
+| id           | `String`        | See [id](spec.md#id-subject)         | `tenant1/12345-abcde`, `namespace/pipelinerun-1234`                                                       | ✅       |
+| source       | `URI-Reference` | See [source](spec.md#source-subject) |                                                                                                           |          |
+| type         | `String`        | See [type](spec.md#type-subject)     | `pipelineRun`                                                                                             |          |
+| pipelineName | `String`        | The name of the pipeline             | `MyPipeline`, `Unit tests for my repo`                                                                    |          |
+| url          | `URI`           | url to the `pipelineRun`             | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` |          |
 
 ### [`pipelineRun Started`](examples/pipelinerun_started.json)
 
 A pipelineRun has started and it is running.
 
-- Event Type: __`dev.cdevents.pipelinerun.started.0.1.1`__
+- Event Type: **`dev.cdevents.pipelinerun.started.0.1.1`**
 - Predicate: started
 - Subject: [`pipelineRun`](#pipelinerun)
 
-| Field | Type | Description | Examples | Required |
-|-------|------|-------------|----------|----------------------------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/pipelinerun-1234` | ✅ |
-| source | `URI-Reference` | See [source](spec.md#source-subject) | | |
-| type | `String` | See [type](spec.md#type-subject) | `pipelineRun` | |
-| pipelineName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` | |
-| url | `URI` | url to the `pipelineRun` | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` | |
+| Field        | Type            | Description                          | Examples                                                                                                  | Required |
+| ------------ | --------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- | -------- |
+| id           | `String`        | See [id](spec.md#id-subject)         | `tenant1/12345-abcde`, `namespace/pipelinerun-1234`                                                       | ✅       |
+| source       | `URI-Reference` | See [source](spec.md#source-subject) |                                                                                                           |          |
+| type         | `String`        | See [type](spec.md#type-subject)     | `pipelineRun`                                                                                             |          |
+| pipelineName | `String`        | The name of the pipeline             | `MyPipeline`, `Unit tests for my repo`                                                                    |          |
+| url          | `URI`           | url to the `pipelineRun`             | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` |          |
 
 ### [`pipelineRun Finished`](examples/pipelinerun_finished.json)
 
 A pipelineRun has finished, successfully or not.
 
-- Event Type: __`dev.cdevents.pipelinerun.finished.0.1.1`__
+- Event Type: **`dev.cdevents.pipelinerun.finished.0.1.1`**
 - Predicate: finished
 - Subject: [`pipelineRun`](#pipelinerun)
 
-| Field | Type | Description | Examples | Required |
-|-------|------|-------------|----------|----------------------------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/pipelinerun-1234` | ✅ |
-| source | `URI-Reference` | See [source](spec.md#source-subject) | | |
-| type | `String` | See [type](spec.md#type-subject) | `pipelineRun` | |
-| pipelineName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` | |
-| url | `URI` | url to the `pipelineRun` | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234` | |
-| outcome | `Enum` | outcome of a finished `pipelineRun` | `success`, `error` or `failure`| |
-| errors | `String` | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `pipelineRun cancelled by user`, `Unit tests failed`| |
+| Field        | Type            | Description                                                             | Examples                                                                                                    | Required |
+| ------------ | --------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------- |
+| id           | `String`        | See [id](spec.md#id-subject)                                            | `tenant1/12345-abcde`, `namespace/pipelinerun-1234`                                                         | ✅       |
+| source       | `URI-Reference` | See [source](spec.md#source-subject)                                    |                                                                                                             |          |
+| type         | `String`        | See [type](spec.md#type-subject)                                        | `pipelineRun`                                                                                               |          |
+| pipelineName | `String`        | The name of the pipeline                                                | `MyPipeline`, `Unit tests for my repo`                                                                      |          |
+| url          | `URI`           | url to the `pipelineRun`                                                | `https://dashboard.org/namespace/pipelinerun-1234`, `https://api.cdsystem.com/namespace/pipelinerun-1234`   |          |
+| outcome      | `String (enum)` | outcome of a finished `pipelineRun`                                     | `success`, `error` or `failure`                                                                             |          |
+| errors       | `String`        | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `pipelineRun cancelled by user`, `Unit tests failed` |          |
 
 ### [`taskRun Started`](examples/taskrun_started.json)
 
 A taskRun has started and it is running.
 
-- Event Type: __`dev.cdevents.taskrun.started.0.1.1`__
+- Event Type: **`dev.cdevents.taskrun.started.0.1.1`**
 - Predicate: started
 - Subject: [`taskRun`](#taskrun)
 
-| Field | Type | Description | Examples | Required |
-|-------|------|-------------|----------|----------------------------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/taskrun-1234` | ✅ |
-| source | `URI-Reference` | [source](spec.md#source) from the context | | |
-| type | `String` | See [type](spec.md#type-subject) | `taskRun` | |
-| taskName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` | |
-| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to. | `{"id": "namespace/pipelinerun-1234"}`| |
-| url | `URI` | url to the `taskRun` | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234` | |
+| Field       | Type                                     | Description                                       | Examples                                                                                          | Required |
+| ----------- | ---------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------- | -------- |
+| id          | `String`                                 | See [id](spec.md#id-subject)                      | `tenant1/12345-abcde`, `namespace/taskrun-1234`                                                   | ✅       |
+| source      | `URI-Reference`                          | [source](spec.md#source) from the context         |                                                                                                   |          |
+| type        | `String`                                 | See [type](spec.md#type-subject)                  | `taskRun`                                                                                         |          |
+| taskName    | `String`                                 | The name of the pipeline                          | `MyPipeline`, `Unit tests for my repo`                                                            |          |
+| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to. | `{"id": "namespace/pipelinerun-1234"}`                                                            |          |
+| url         | `URI`                                    | url to the `taskRun`                              | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234` |          |
 
 ### [`taskRun Finished`](examples/taskrun_finished.json)
 
 A taskRun has finished, successfully or not.
 
-- Event Type: __`dev.cdevents.taskrun.finished.0.1.1`__
+- Event Type: **`dev.cdevents.taskrun.finished.0.1.1`**
 - Predicate: finished
 - Subject: [`taskRun`](#taskrun)
 
-| Field | Type | Description | Examples | Required |
-|-------|------|-------------|----------|----------------------------|
-| id    | `String` | See [id](spec.md#id-subject)| `tenant1/12345-abcde`, `namespace/taskrun-1234` | ✅ |
-| source | `URI-Reference` | [source](spec.md#source) from the context | | |
-| type | `String` | See [type](spec.md#type-subject) | `taskRun` | |
-| taskName  | `String` | The name of the pipeline | `MyPipeline`, `Unit tests for my repo` | |
-| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to. | `{"id": "namespace/pipelinerun-1234"}`| |
-| url | `URI` | url to the `taskRun` | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234` | |
-| outcome | `Enum` | outcome of a finished `taskRun` | `success`, `error` or `failure`| |
-| errors | `String` | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `taskRun cancelled by user`, `Unit tests failed`| |
+| Field       | Type                                     | Description                                                             | Examples                                                                                                | Required |
+| ----------- | ---------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | -------- |
+| id          | `String`                                 | See [id](spec.md#id-subject)                                            | `tenant1/12345-abcde`, `namespace/taskrun-1234`                                                         | ✅       |
+| source      | `URI-Reference`                          | [source](spec.md#source) from the context                               |                                                                                                         |          |
+| type        | `String`                                 | See [type](spec.md#type-subject)                                        | `taskRun`                                                                                               |          |
+| taskName    | `String`                                 | The name of the pipeline                                                | `MyPipeline`, `Unit tests for my repo`                                                                  |          |
+| pipelineRun | `Object` ([`pipelineRun`](#pipelinerun)) | The `pipelineRun` that this `taskRun` belongs to.                       | `{"id": "namespace/pipelinerun-1234"}`                                                                  |          |
+| url         | `URI`                                    | url to the `taskRun`                                                    | `https://dashboard.org/namespace/taskrun-1234`, `https://api.cdsystem.com/namespace/taskrun-1234`       |          |
+| outcome     | `String (enum)`                          | outcome of a finished `taskRun`                                         | `success`, `error` or `failure`                                                                         |          |
+| errors      | `String`                                 | In case of error or failed pipeline, provides details about the failure | `Invalid input param 123`, `Timeout during execution`, `taskRun cancelled by user`, `Unit tests failed` |          |
